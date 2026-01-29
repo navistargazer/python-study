@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocks Users</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css' ) }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="brand">User Manager</div>
+            <ul>
+                {% if session.get('login_id') %}
+                    <li><a href="{{ url_for('index') }}">회원목록</a></li>
+                    <li><span>{{session.get('user_nm')}} 님</span></li>
+                    <li><a href="{{ url_for('logout') }}">로그아웃</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('index') }}">회원목록</a></li>
+                    <li><a href="{{ url_for('login') }}">로그인</a></li>
+                    <li><a href="{{ url_for('register') }}">회원가입</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{category}}">{{message}}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
